@@ -40,7 +40,8 @@ class PostsController extends AdminController
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find(),
+            'query' => Post::find()->with('author', 'category'),
+            'sort' => false,
         ]);
 
         return $this->render('index', [
