@@ -51,6 +51,10 @@ $config = [
                 '/admin' => '/admin/authors',
             ],
         ],
+        'formatter' => [
+            'class' => \yii\i18n\Formatter::class,
+            'nullDisplay' => '',
+        ],
     ],
     'params' => $params,
 ];
