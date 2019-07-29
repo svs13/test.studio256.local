@@ -5,12 +5,15 @@ namespace app\controllers\admin;
 use Yii;
 use app\models\Category;
 use yii\data\ActiveDataProvider;
-use app\controllers\admin\AdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
- * CategoriesController implements the CRUD actions for Category model.
+ * Действия с категориями
+ *
+ * Class CategoriesController
+ * @package app\controllers\admin
  */
 class CategoriesController extends AdminController
 {
@@ -21,7 +24,7 @@ class CategoriesController extends AdminController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -31,9 +34,9 @@ class CategoriesController extends AdminController
 
     /**
      * Lists all Category models.
-     * @return mixed
+     * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Category::find(),
@@ -47,10 +50,10 @@ class CategoriesController extends AdminController
     /**
      * Displays a single Category model.
      * @param string $id
-     * @return mixed
+     * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -60,7 +63,7 @@ class CategoriesController extends AdminController
     /**
      * Creates a new Category model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -79,7 +82,7 @@ class CategoriesController extends AdminController
      * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
-     * @return mixed
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
@@ -99,10 +102,12 @@ class CategoriesController extends AdminController
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
-     * @return mixed
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete($id): Response
     {
         $this->findModel($id)->delete();
 
@@ -116,12 +121,14 @@ class CategoriesController extends AdminController
      * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): Category
     {
-        if (($model = Category::findOne($id)) !== null) {
-            return $model;
+        $model = Category::findOne($id);
+
+        if (empty($model)) {
+            throw new NotFoundHttpException('Not found');
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
     }
 }

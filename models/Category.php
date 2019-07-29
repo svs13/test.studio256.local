@@ -2,8 +2,11 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * Категория (поста)
@@ -28,13 +31,30 @@ class Category extends ActiveRecord
     }
 
     /**
+     * @return array|int
+     */
+    public function behaviors()
+    {
+        return ArrayHelper::merge([
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+                ]
+            ], parent::behaviors());
+    }
+
+    /**
      * {@inheritdoc}
      * @return array
      */
     public function rules(): array
     {
         return [
-            [['title', 'description', 'created_at'], 'required'],
+            [['title', 'description'], 'required'],
             [['title', 'description'], 'string', 'max' => 255],
         ];
     }
