@@ -19,8 +19,9 @@ class CategoriesController extends AdminController
 {
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [

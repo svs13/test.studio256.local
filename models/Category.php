@@ -22,6 +22,9 @@ use yii\helpers\ArrayHelper;
  */
 class Category extends ActiveRecord
 {
+    /** Названия категорий */
+    protected static $titles;
+
     /**
      * {@inheritdoc}
      * @return string
@@ -32,11 +35,30 @@ class Category extends ActiveRecord
     }
 
     /**
-     * @return array|int
+     * Названия категорий в формате [id => title, ...]
+     *
+     * @return array
      */
-    public function behaviors()
+    public static function findTitles(): array
+    {
+        if (empty(static::$titles)) {
+            static::$titles = ArrayHelper::map(
+                static::find()->select(['id', 'title'])->asArray()->all(),
+                'id',
+                'title'
+            );
+        }
+
+        return static::$titles;
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors(): array
     {
         return ArrayHelper::merge([
+            /** Запись дат created_at, updated_at соответственно перед вставкой и перед обновлением данных */
             'timestamp' => [
                 'class' => TimestampBehavior::class,
                 'attributes' => [

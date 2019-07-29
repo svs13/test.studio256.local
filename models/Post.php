@@ -2,8 +2,11 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * Пост
@@ -34,13 +37,31 @@ class Post extends ActiveRecord
     }
 
     /**
+     * @return array
+     */
+    public function behaviors(): array
+    {
+        return ArrayHelper::merge([
+            /** Запись дат created_at, updated_at соответственно перед вставкой и перед обновлением данных */
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ]
+        ], parent::behaviors());
+    }
+
+    /**
      * {@inheritdoc}
      * @return array
      */
     public function rules(): array
     {
         return [
-            [['author_id', 'category_id', 'title', 'slug', 'content', 'lead', 'created_at'], 'required'],
+            [['author_id', 'category_id', 'title', 'slug', 'content', 'lead'], 'required'],
             [['author_id', 'category_id'], 'integer'],
             [['content'], 'string'],
             [['title', 'slug', 'lead'], 'string', 'max' => 255],
@@ -65,6 +86,8 @@ class Post extends ActiveRecord
             'lead' => 'Краткое описание',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
+            'author.name' => 'Автор',
+            'category.title' => 'Категория',
         ];
     }
 

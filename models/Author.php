@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Автор
@@ -16,6 +17,9 @@ use yii\db\ActiveRecord;
  */
 class Author extends ActiveRecord
 {
+    /** Имена авторов */
+    protected static $names;
+
     /**
      * {@inheritdoc}
      * @return string
@@ -23,6 +27,24 @@ class Author extends ActiveRecord
     public static function tableName(): string
     {
         return 'authors';
+    }
+
+    /**
+     * Имена авторов в формате [id => name, ...]
+     *
+     * @return array
+     */
+    public static function findNames(): array
+    {
+        if (empty(static::$names)) {
+            static::$names = ArrayHelper::map(
+                static::find()->select(['id', 'name'])->asArray()->all(),
+                'id',
+                'name'
+            );
+        }
+
+        return static::$names;
     }
 
     /**

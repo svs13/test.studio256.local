@@ -5,23 +5,27 @@ namespace app\controllers\admin;
 use Yii;
 use app\models\Post;
 use yii\data\ActiveDataProvider;
-use app\controllers\admin\AdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
- * PostsController implements the CRUD actions for Post model.
+ * Действия с постами
+ *
+ * Class PostsController
+ * @package app\controllers\admin
  */
 class PostsController extends AdminController
 {
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -31,9 +35,9 @@ class PostsController extends AdminController
 
     /**
      * Lists all Post models.
-     * @return mixed
+     * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find(),
@@ -47,10 +51,10 @@ class PostsController extends AdminController
     /**
      * Displays a single Post model.
      * @param string $id
-     * @return mixed
+     * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -60,7 +64,7 @@ class PostsController extends AdminController
     /**
      * Creates a new Post model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -79,7 +83,7 @@ class PostsController extends AdminController
      * Updates an existing Post model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
-     * @return mixed
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
@@ -99,10 +103,12 @@ class PostsController extends AdminController
      * Deletes an existing Post model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
-     * @return mixed
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete($id): Response
     {
         $this->findModel($id)->delete();
 
@@ -116,12 +122,14 @@ class PostsController extends AdminController
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): Post
     {
-        if (($model = Post::findOne($id)) !== null) {
-            return $model;
+        $model = Post::findOne($id);
+
+        if (empty($model)) {
+            throw new NotFoundHttpException('Not found');
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
     }
 }
