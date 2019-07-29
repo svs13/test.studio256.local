@@ -2,30 +2,33 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "authors".
+ * Автор
  *
  * @property string $id
  * @property string $name
  *
  * @property Post[] $posts
  */
-class Author extends \yii\db\ActiveRecord
+class Author extends ActiveRecord
 {
     /**
      * {@inheritdoc}
+     * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'authors';
     }
 
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name'], 'required'],
@@ -35,20 +38,21 @@ class Author extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Имя',
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getPosts()
+    public function getPosts(): ActiveQuery
     {
-        return $this->hasMany(Post::className(), ['author_id' => 'id']);
+        return $this->hasMany(Post::class, ['author_id' => 'id']);
     }
 }

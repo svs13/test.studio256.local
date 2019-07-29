@@ -2,10 +2,11 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "categories".
+ * Категория (поста)
  *
  * @property string $id
  * @property string $title
@@ -15,47 +16,49 @@ use Yii;
  *
  * @property Post[] $posts
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends ActiveRecord
 {
     /**
      * {@inheritdoc}
+     * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'categories';
     }
 
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'description', 'created_at'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
         ];
     }
 
     /**
      * {@inheritdoc}
+     * @return array
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'title' => 'Название',
+            'description' => 'Описание',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getPosts()
+    public function getPosts(): ActiveQuery
     {
-        return $this->hasMany(Post::className(), ['category_id' => 'id']);
+        return $this->hasMany(Post::class, ['category_id' => 'id']);
     }
 }
