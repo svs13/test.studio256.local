@@ -45,6 +45,7 @@ class Author extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Имя',
+            'postsCount' => 'Кол-во постов',
         ];
     }
 
@@ -54,5 +55,13 @@ class Author extends ActiveRecord
     public function getPosts(): ActiveQuery
     {
         return $this->hasMany(Post::class, ['author_id' => 'id']);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostsCount(): int
+    {
+        return $this->getPosts()->count();
     }
 }
