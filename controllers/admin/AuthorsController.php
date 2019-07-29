@@ -5,12 +5,15 @@ namespace app\controllers\admin;
 use Yii;
 use app\models\Author;
 use yii\data\ActiveDataProvider;
-use app\controllers\admin\AdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
- * AuthorsController implements the CRUD actions for Author model.
+ * Действия с авторами
+ *
+ * Class AuthorsController
+ * @package app\controllers\admin
  */
 class AuthorsController extends AdminController
 {
@@ -21,7 +24,7 @@ class AuthorsController extends AdminController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -31,12 +34,13 @@ class AuthorsController extends AdminController
 
     /**
      * Lists all Author models.
-     * @return mixed
+     * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Author::find(),
+            'sort' => false,
         ]);
 
         return $this->render('index', [
@@ -47,10 +51,10 @@ class AuthorsController extends AdminController
     /**
      * Displays a single Author model.
      * @param string $id
-     * @return mixed
+     * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -60,7 +64,7 @@ class AuthorsController extends AdminController
     /**
      * Creates a new Author model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -79,7 +83,7 @@ class AuthorsController extends AdminController
      * Updates an existing Author model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
-     * @return mixed
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
@@ -99,10 +103,12 @@ class AuthorsController extends AdminController
      * Deletes an existing Author model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
-     * @return mixed
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete($id): Response
     {
         $this->findModel($id)->delete();
 
@@ -116,12 +122,14 @@ class AuthorsController extends AdminController
      * @return Author the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): Author
     {
-        if (($model = Author::findOne($id)) !== null) {
-            return $model;
+        $model = Author::findOne($id);
+
+        if (empty($model)) {
+            throw new NotFoundHttpException('Not found');
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
     }
 }
