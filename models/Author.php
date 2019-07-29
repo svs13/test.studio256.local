@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  *
  * @property Post[] $posts
+ * @property int $postsCount
  */
 class Author extends ActiveRecord
 {

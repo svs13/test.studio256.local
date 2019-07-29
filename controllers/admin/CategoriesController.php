@@ -39,7 +39,8 @@ class CategoriesController extends AdminController
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find(),
+            'query' => Category::find()->with('postsCountAggregation'),
+            'sort' => false,
         ]);
 
         return $this->render('index', [

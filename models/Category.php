@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property string $updated_at
  *
  * @property Post[] $posts
+ * @property int $postsCount
  */
 class Category extends ActiveRecord
 {
@@ -71,6 +72,7 @@ class Category extends ActiveRecord
             'description' => 'Описание',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
+            'postsCount' => 'Кол-во постов',
         ];
     }
 
@@ -80,5 +82,26 @@ class Category extends ActiveRecord
     public function getPosts(): ActiveQuery
     {
         return $this->hasMany(Post::class, ['category_id' => 'id']);
+    }
+
+    /**
+     * Агрегация для получения кол-ва постов данного автора (для жадной загрузки)
+     *
+     * @return ActiveQuery
+     */
+    public function getPostsCountAggregation(): ActiveQuery
+    {
+        return $this->getPosts()
+            ->select(['category_id', 'counted' => 'COUNT(*)'])
+            ->groupBy('category_id')
+            ->asArray(true);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostsCount(): int
+    {
+        return $this->postsCountAggregation[0]['counted'] ?? 0;
     }
 }
