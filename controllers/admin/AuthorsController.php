@@ -39,7 +39,7 @@ class AuthorsController extends AdminController
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Author::find(),
+            'query' => Author::find()->with('postsCountAggregation'),
             'sort' => false,
         ]);
 

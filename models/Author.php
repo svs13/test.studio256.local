@@ -58,10 +58,23 @@ class Author extends ActiveRecord
     }
 
     /**
+     * Агрегация для получения кол-ва постов данного автора (для жадной загрузки)
+     *
+     * @return ActiveQuery
+     */
+    public function getPostsCountAggregation(): ActiveQuery
+    {
+        return $this->getPosts()
+            ->select(['author_id', 'counted' => 'COUNT(*)'])
+            ->groupBy('author_id')
+            ->asArray(true);
+    }
+
+    /**
      * @return int
      */
     public function getPostsCount(): int
     {
-        return $this->getPosts()->count();
+        return $this->postsCountAggregation[0]['counted'] ?? 0;
     }
 }
