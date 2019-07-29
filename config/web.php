@@ -1,5 +1,10 @@
 <?php
 
+use yii\web\GroupUrlRule;
+use yii\web\JsonParser;
+use yii\web\JsonResponseFormatter;
+use yii\web\Response;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -17,6 +22,18 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'HChyYWgIQ4r-Ntc-x-yTy96WcW3EiJBB',
+            'parsers' => [
+                'application/json' => JsonParser::class,
+            ]
+        ],
+        'response' => [
+            // ...
+            'formatters' => [
+                Response::FORMAT_JSON => [
+                    'class' => JsonResponseFormatter::class,
+                    'prettyPrint' => YII_DEBUG, // используем "pretty" в режиме отладки
+                ],
+            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -50,6 +67,17 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '/admin' => '/admin/authors',
+                /** API */
+               new GroupUrlRule([
+                   'prefix' => '/api/v1',
+                   'rules' => [
+                       'GET post' => 'posts/index',
+                       'GET post/<id>' => 'posts/view',
+                       'POST post/<id>' => 'posts/update',
+                       'DELETE post/<id>' => 'posts/delete',
+                       '*' => '', //Not Found
+                   ]
+               ]),
             ],
         ],
         'formatter' => [
