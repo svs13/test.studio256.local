@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
  * Действия с постами
  *
  * Class PostsController
- * @package app\controllers\admin
+ * @package app\controllers
  */
 class PostsController extends Controller
 {

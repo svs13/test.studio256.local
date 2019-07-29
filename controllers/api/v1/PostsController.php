@@ -3,6 +3,7 @@
 namespace app\controllers\api\v1;
 
 use app\controllers\api\ApiController;
+use app\controllers\api\actions\UpdateAction;
 use app\models\Post;
 use yii\data\ActiveDataProvider;
 
@@ -19,7 +20,7 @@ class PostsController extends ApiController
     /**
      * @return array
      */
-    public function verbs()
+    public function verbs(): array
     {
         return [
             'index' => ['GET'],
@@ -34,12 +35,14 @@ class PostsController extends ApiController
     /**
      * @return array
      */
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
 
         /** Отключение не нежных */
         unset($actions['create'], $actions['options']);
+
+        $actions['update']['class'] = UpdateAction::class;
 
         /** настроить подготовку провайдера данных с помощью метода "prepareDataProvider()" */
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -50,7 +53,7 @@ class PostsController extends ApiController
     /**
      * @return ActiveDataProvider
      */
-    public function prepareDataProvider()
+    public function prepareDataProvider(): ActiveDataProvider
     {
         return new ActiveDataProvider([
             'query' => Post::find()
