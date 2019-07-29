@@ -3,7 +3,11 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%categories}}`.
+ * Добавление таблицы "Категории"
+ *  title - Название
+ *  description - Описание
+ *  created_at - Дата создания
+ *  updated_at - Дата изменения
  */
 class m190729_122600_create_categories_table extends Migration
 {
@@ -13,7 +17,7 @@ class m190729_122600_create_categories_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%categories}}', [
-            'id' => $this->primaryKey(),
+            'id' => $this->bigPrimaryKey()->unsigned(),
             'title' => $this->string()->notNull(),
             'description' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->notNull(),

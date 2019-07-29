@@ -3,7 +3,8 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%authors}}`.
+ * Добавление таблицы "Авторы"
+ *  name - Имя
  */
 class m190729_121237_create_authors_table extends Migration
 {
@@ -13,7 +14,7 @@ class m190729_121237_create_authors_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%authors}}', [
-            'id' => $this->primaryKey(),
+            'id' => $this->bigPrimaryKey()->unsigned(),
             'name' => $this->string()->notNull(),
         ]);
     }

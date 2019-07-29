@@ -3,11 +3,17 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%posts}}`.
- * Has foreign keys to the tables:
+ * Добавление таблицы "Посты"
+ *  title - Название
+ *  slug - Slug
+ *  content - Пост
+ *  lead - Краткое описание
+ *  created_at - Дата создания
+ *  updated_at - Дата изменения
  *
- * - `{{%authors}}`
- * - `{{%categories}}`
+ * Внешние ключи:
+ *  author_id - Автор
+ *  category_id - Категория
  */
 class m190729_123301_create_posts_table extends Migration
 {
@@ -17,24 +23,23 @@ class m190729_123301_create_posts_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%posts}}', [
-            'id' => $this->primaryKey(),
-            'author_id' => $this->bigint()->notNull(),
-            'category_id' => $this->bigint()->notNull(),
+            'id' => $this->bigPrimaryKey()->unsigned(),
+            'author_id' => $this->bigInteger()->notNull()->unsigned(),
+            'category_id' => $this->bigInteger()->notNull()->unsigned(),
+            'title' => $this->string()->notNull(),
             'slug' => $this->string()->notNull(),
-            'content' => $this->string()->notNull(),
+            'content' => $this->text()->notNull(),
             'lead' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp(),
         ]);
 
-        // creates index for column `author_id`
         $this->createIndex(
             '{{%idx-posts-author_id}}',
             '{{%posts}}',
             'author_id'
         );
 
-        // add foreign key for table `{{%authors}}`
         $this->addForeignKey(
             '{{%fk-posts-author_id}}',
             '{{%posts}}',
@@ -44,14 +49,12 @@ class m190729_123301_create_posts_table extends Migration
             'CASCADE'
         );
 
-        // creates index for column `category_id`
         $this->createIndex(
             '{{%idx-posts-category_id}}',
             '{{%posts}}',
             'category_id'
         );
 
-        // add foreign key for table `{{%categories}}`
         $this->addForeignKey(
             '{{%fk-posts-category_id}}',
             '{{%posts}}',
@@ -67,25 +70,21 @@ class m190729_123301_create_posts_table extends Migration
      */
     public function safeDown()
     {
-        // drops foreign key for table `{{%authors}}`
         $this->dropForeignKey(
             '{{%fk-posts-author_id}}',
             '{{%posts}}'
         );
 
-        // drops index for column `author_id`
         $this->dropIndex(
             '{{%idx-posts-author_id}}',
             '{{%posts}}'
         );
 
-        // drops foreign key for table `{{%categories}}`
         $this->dropForeignKey(
             '{{%fk-posts-category_id}}',
             '{{%posts}}'
         );
 
-        // drops index for column `category_id`
         $this->dropIndex(
             '{{%idx-posts-category_id}}',
             '{{%posts}}'
