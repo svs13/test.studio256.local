@@ -42,11 +42,10 @@ class Category extends ActiveRecord
     public static function findTitles(): array
     {
         if (empty(static::$titles)) {
-            static::$titles = ArrayHelper::map(
-                static::find()->select(['id', 'title'])->asArray()->all(),
-                'id',
-                'title'
-            );
+            static::$titles = static::find()
+                ->select('title')
+                ->indexBy('id')
+                ->column();
         }
 
         return static::$titles;

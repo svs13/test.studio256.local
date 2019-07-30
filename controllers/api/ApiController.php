@@ -2,6 +2,7 @@
 
 namespace app\controllers\api;
 
+use app\controllers\api\actions\UpdateAction;
 use yii\rest\ActiveController;
 
 /**
@@ -12,5 +13,11 @@ use yii\rest\ActiveController;
  */
 class ApiController extends ActiveController
 {
+    public function actions()
+    {
+        $actions = parent::actions();
+        $actions['update']['class'] = UpdateAction::class;
 
+        return $actions;
+    }
 }

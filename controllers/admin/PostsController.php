@@ -55,7 +55,7 @@ class PostsController extends AdminController
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id): string
+    public function actionView(string $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -87,7 +87,7 @@ class PostsController extends AdminController
      * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate(string $id)
     {
         $model = $this->findModel($id);
 
@@ -109,7 +109,7 @@ class PostsController extends AdminController
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id): Response
+    public function actionDelete(string $id): Response
     {
         $this->findModel($id)->delete();
 
@@ -123,7 +123,7 @@ class PostsController extends AdminController
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id): Post
+    protected function findModel(string $id): Post
     {
         $model = Post::findOne($id);
 

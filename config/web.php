@@ -75,7 +75,6 @@ $config = [
                        'GET post/<id>' => 'posts/view',
                        'POST post/<id>' => 'posts/update',
                        'DELETE post/<id>' => 'posts/delete',
-                       '*' => '', //Not Found
                    ]
                ]),
             ],

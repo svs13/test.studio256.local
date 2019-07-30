@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Post;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 
 /**
  * Корень сайта
@@ -21,9 +22,7 @@ class SiteController extends Controller
     public function actions(): array
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
+            'error' => ErrorAction::class,
         ];
     }
 

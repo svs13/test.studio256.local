@@ -3,7 +3,6 @@
 namespace app\controllers\api\v1;
 
 use app\controllers\api\ApiController;
-use app\controllers\api\actions\UpdateAction;
 use app\models\Post;
 use yii\data\ActiveDataProvider;
 
@@ -41,8 +40,6 @@ class PostsController extends ApiController
 
         /** Отключение не нежных */
         unset($actions['create'], $actions['options']);
-
-        $actions['update']['class'] = UpdateAction::class;
 
         /** настроить подготовку провайдера данных с помощью метода "prepareDataProvider()" */
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];

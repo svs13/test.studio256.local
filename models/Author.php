@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * Автор
@@ -37,11 +36,10 @@ class Author extends ActiveRecord
     public static function findNames(): array
     {
         if (empty(static::$names)) {
-            static::$names = ArrayHelper::map(
-                static::find()->select(['id', 'name'])->asArray()->all(),
-                'id',
-                'name'
-            );
+            static::$names = static::find()
+                ->select('name')
+                ->indexBy('id')
+                ->column();
         }
 
         return static::$names;
