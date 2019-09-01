@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'autocomplete'],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -26,6 +26,9 @@ $config = [
             ],
         ],
         'db' => $db,
+        'autocomplete' => [
+            'class' => 'iiifx\Yii2\Autocomplete\Component',
+        ],
     ],
     'params' => $params,
     /*

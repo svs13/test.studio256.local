@@ -19,6 +19,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'dataService' => '\app\services\DataService',
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'HChyYWgIQ4r-Ntc-x-yTy96WcW3EiJBB',

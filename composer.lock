@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92e15737ec11a87f7cf598134db4b2bb",
+    "content-hash": "4e059ae5ca713027b41844a52f8d365a",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -326,6 +326,56 @@
                 "html"
             ],
             "time": "2019-07-14T18:58:38+00:00"
+        },
+        {
+            "name": "iiifx-production/yii2-autocomplete-helper",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iiifx-production/yii2-autocomplete-helper.git",
+                "reference": "b8acae313bf14e13d6e2bd58cbc89ef0ad451d4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iiifx-production/yii2-autocomplete-helper/zipball/b8acae313bf14e13d6e2bd58cbc89ef0ad451d4c",
+                "reference": "b8acae313bf14e13d6e2bd58cbc89ef0ad451d4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4|^5"
+            },
+            "type": "extension",
+            "autoload": {
+                "psr-4": {
+                    "iiifx\\Yii2\\Autocomplete\\": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitaliy IIIFX Khomenko",
+                    "email": "iiifx@yandex.com"
+                }
+            ],
+            "description": "Yii2 Autocomplete Helper",
+            "homepage": "https://github.com/iiifx-production/yii2-autocomplete-helper",
+            "keywords": [
+                "auto-completion",
+                "autocomplete",
+                "framework",
+                "helper",
+                "ide",
+                "yii",
+                "yii2"
+            ],
+            "time": "2019-02-03T10:21:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
